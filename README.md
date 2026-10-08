@@ -4,21 +4,28 @@
 | Arquivo | Conteúdo |
 |---|---|
 | `grafo.h` / `grafo.c` | TAD `Grafo` (tipo opaco, matriz de adjacências) |
-| `main.c` | programa de demonstração (`carregar` / `recarregar`) |
-| `Makefile` | `make` compila; `make teste` roda carga + recarga + verificação |
-| `visualizar_grafo.py` | visualização 3D interativa (Plotly) |
+| `main.c` | menu interativo no terminal |
+| `Makefile` | `make` compila; `make teste` roda carga + salvar + recarga + verificação via menu |
+| `visualizar_grafo.py` | visualização 3D interativa (Plotly), chamada pela opção 8 do menu |
 | `grafo_iris.csv` | grafo persistido gerado com limiar 0,3 (exemplo) |
-| `grafo_iris_3d.html` | visualização 3D já gerada (abrir no navegador; requer internet p/ carregar plotly.js) |
 
 ## Uso
 ```bash
+pip install plotly numpy      # só para a visualização 3D
 make
-./grafo_iris carregar original_IrisDataset.csv grafo_iris.csv        # carga primária + persistência
-./grafo_iris recarregar grafo_iris.csv --verificar                   # recarga SEM reler a base / recalcular DEN
-pip install plotly numpy
-python3 visualizar_grafo.py                                          # abre no navegador (gire com o mouse)
+./grafo_iris                  # execute DENTRO da pasta do projeto
 ```
-Limiar opcional: `./grafo_iris carregar base.csv saida.csv 0.15`.
+Menu (ENTER em qualquer pergunta usa o valor padrão entre colchetes; o limiar aceita `0.3` ou `0,3`):
+```
+1) Carga primária (ler CSV da base Iris)      5) Verificar cabeçalho x matriz
+2) Salvar grafo em CSV                        6) Consultar vértice (grau e vizinhos)
+3) Recarregar grafo de CSV                    7) Verificar adjacência entre dois vértices
+4) Mostrar resumo do grafo                    8) Visualizar em 3D (script Python)
+0) Sair
+```
+Fluxo típico: `1` → `2` → `8`. Numa próxima sessão: `3` (recarrega sem reler a base nem recalcular DEN) → `8`.
+A opção 8 salva o grafo antes (se necessário) e executa `python3 visualizar_grafo.py` (`python` no Windows);
+o navegador abre com o gráfico, que gira com o mouse.
 
 ## Pipeline da carga primária (observação a do enunciado)
 CSV → (ignora coluna 1, lê as 4 medidas) → tabela DE (distância euclideana, todos os pares)
@@ -45,6 +52,6 @@ numero_componentes,1          componente,1,tamanho,150,vertice_inicial,c1
   Se usar também o script do Moodle, cite-o junto.
 
 ## Validação feita
-Matriz, graus, componentes e extremos conferidos contra uma implementação independente em Python/numpy
+Menu testado com entradas válidas/inválidas, EOF, sobrescrita e caminhos com espaço/aspas. Matriz, graus, componentes e extremos conferidos contra uma implementação independente em Python/numpy
 (limiares 0,3 / 0,15 / 0,1 / 0,05); sem erros no AddressSanitizer/UBSan; arquivos inválidos
 (colunas faltando, valor não numérico, matriz truncada/assimétrica) são rejeitados com mensagem.

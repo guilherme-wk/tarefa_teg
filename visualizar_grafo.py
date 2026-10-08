@@ -27,8 +27,9 @@ Dependencias:  pip install plotly numpy
 
 Exemplos:
   python3 visualizar_grafo.py                               # abre no navegador
-  python3 visualizar_grafo.py --saida grafo_iris_3d.html --sem-abrir
   python3 visualizar_grafo.py --eixos atributos --attrs 0 2 3
+
+Tambem pode ser chamado pela opcao 8 do menu do programa em C.
 """
 import argparse
 import csv
@@ -149,9 +150,6 @@ def main():
                     metavar=("A", "B", "C"),
                     help="com --eixos atributos: 3 indices entre 0..3 "
                          "(0=Sepal.length 1=Sepal.width 2=Petal.length 3=Petal.width)")
-    ap.add_argument("--saida", help="grava tambem um HTML interativo neste arquivo")
-    ap.add_argument("--sem-abrir", action="store_true",
-                    help="nao abre o navegador (util junto com --saida)")
     args = ap.parse_args()
 
     if any(a not in range(4) for a in args.attrs) or len(set(args.attrs)) != 3:
@@ -165,11 +163,7 @@ def main():
         sys.exit("erro: total_vertices do cabecalho difere da base")
 
     fig = montar_figura(especies, X, A, args.eixos, args.attrs)
-    if args.saida:
-        fig.write_html(args.saida, include_plotlyjs="cdn")
-        print(f"HTML gravado em {args.saida}")
-    if not args.sem_abrir:
-        fig.show()
+    fig.show()  # abre a figura interativa no navegador
 
 
 if __name__ == "__main__":
