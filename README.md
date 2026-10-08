@@ -9,12 +9,25 @@
 | `visualizar_grafo.py` | visualização 3D interativa (Plotly), chamada pela opção 8 do menu |
 | `grafo_iris.csv` | grafo persistido gerado com limiar 0,3 (exemplo) |
 
-## Uso
+## Como compilar
+Precisa de um compilador C (`gcc`). Na pasta com `main.c`, `grafo.c` e `grafo.h`:
 ```bash
-pip install plotly numpy      # só para a visualização 3D
-make
-./grafo_iris                  # execute DENTRO da pasta do projeto
+gcc -std=c99 -Wall -Wextra -O2 -o grafo_iris main.c grafo.c -lm
 ```
+(`-lm` liga a biblioteca de matemática; é obrigatório no Linux. Com `make` instalado, basta `make`.)
+
+No Windows o `gcc` não vem instalado: instale com `winget install BrechtSanders.WinLibs.POSIX.UCRT`
+(reabra o PowerShell depois) ou use WSL / MSYS2.
+
+## Como executar
+Rode **dentro da pasta do projeto** (ela precisa ter `original_IrisDataset.csv` e `visualizar_grafo.py`):
+```bash
+./grafo_iris          # Linux / macOS / WSL
+.\grafo_iris.exe      # Windows (PowerShell)
+```
+Para a visualização 3D (opção 8), instale uma vez: `pip install plotly numpy`.
+
+## Uso
 Menu (ENTER em qualquer pergunta usa o valor padrão entre colchetes; o limiar aceita `0.3` ou `0,3`):
 ```
 1) Carga primária (ler CSV da base Iris)      5) Verificar cabeçalho x matriz

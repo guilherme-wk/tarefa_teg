@@ -1,9 +1,21 @@
 /*
  * main.c -- menu interativo para o TAD Grafo (Tarefa 1_A -- TEG).
  *
- * Ao executar ./grafo_iris aparece um menu no terminal com todas as
- * operacoes disponiveis. Em qualquer pergunta, apertar ENTER usa o valor
- * padrao mostrado entre colchetes.
+ * COMO COMPILAR (na pasta com main.c, grafo.c e grafo.h):
+ *
+ *     gcc -std=c99 -Wall -Wextra -O2 -o grafo_iris main.c grafo.c -lm
+ *
+ *   (ou apenas "make", se o make estiver instalado)
+ *
+ * COMO EXECUTAR (a partir da pasta do projeto, onde estao tambem
+ * original_IrisDataset.csv e visualizar_grafo.py):
+ *
+ *     Linux / macOS / WSL :  ./grafo_iris
+ *     Windows (PowerShell):  .\grafo_iris.exe
+ *
+ * Ao executar aparece um menu no terminal com todas as operacoes. Em
+ * qualquer pergunta, apertar ENTER usa o valor padrao mostrado entre
+ * colchetes. A opcao 8 (visualizacao 3D) requer: pip install plotly numpy
  */
 #include <ctype.h>
 #include <stdio.h>
