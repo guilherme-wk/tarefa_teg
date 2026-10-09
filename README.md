@@ -28,7 +28,7 @@ Rode **dentro da pasta do projeto** (ela precisa ter `original_IrisDataset.csv` 
 Para a visualização 3D (opção 8), instale uma vez: `pip install plotly numpy`.
 
 ## Uso
-Menu (ENTER em qualquer pergunta usa o valor padrão entre colchetes; o limiar aceita `0.3` ou `0,3`):
+Menu (ENTER em qualquer pergunta usa o valor padrão entre colchetes; o limiar da DEN é fixo em 0,3, conforme o enunciado):
 ```
 1) Carga primária (ler CSV da base Iris)      5) Verificar cabeçalho x matriz
 2) Salvar grafo em CSV                        6) Consultar vértice (grau e vizinhos)

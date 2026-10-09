@@ -15,7 +15,8 @@
  *
  * Ao executar aparece um menu no terminal com todas as operacoes. Em
  * qualquer pergunta, apertar ENTER usa o valor padrao mostrado entre
- * colchetes. A opcao 8 (visualizacao 3D) requer: pip install plotly numpy
+ * colchetes. O limiar da DEN e fixo em 0,3 (enunciado, item d).
+ * A opcao 8 (visualizacao 3D) requer: pip install plotly numpy
  */
 #include <ctype.h>
 #include <stdio.h>
@@ -121,22 +122,11 @@ static void trocar_grafo(Estado *e, Grafo *novo) {
 }
 
 static void op_carga(Estado *e) {
-    char base[TAM], lim[64], erro[256] = "", *fim;
-    double limiar;
+    char base[TAM], erro[256] = "";
     Grafo *novo;
 
     if (pedir("Arquivo CSV da base Iris", e->base[0] ? e->base : BASE_PADRAO, base, sizeof(base)) != 0) return;
-    if (pedir("Limiar da DEN (entre 0 e 1)", "0.3", lim, sizeof(lim)) != 0) return;
-    {
-        char *v = strchr(lim, ','); /* aceita 0,3 */
-        if (v != NULL) *v = '.';
-    }
-    limiar = strtod(lim, &fim);
-    if (lim[0] == '\0' || *fim != '\0' || limiar < 0.0 || limiar > 1.0) {
-        printf("  Limiar invalido: use um numero entre 0 e 1.\n");
-        return;
-    }
-    novo = grafo_carregar_iris_csv(base, limiar, erro, sizeof(erro));
+    novo = grafo_carregar_iris_csv(base, LIMIAR_PADRAO, erro, sizeof(erro));
     if (novo == NULL) {
         printf("  Erro na carga: %s\n", erro);
         return;
@@ -145,7 +135,7 @@ static void op_carga(Estado *e) {
     snprintf(e->base, sizeof(e->base), "%s", base);
     e->arquivo[0] = '\0';
     e->salvo = 0;
-    printf("\n  Carga concluida.\n\n");
+    printf("\n  Carga concluida (aresta se DEN <= %.1f).\n\n", LIMIAR_PADRAO);
     grafo_imprimir_resumo(e->g, stdout);
     printf("\n  Lembre-se de salvar o grafo (opcao 2).\n");
 }
